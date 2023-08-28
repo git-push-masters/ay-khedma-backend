@@ -1,5 +1,5 @@
-const { check, param } = require("express-validator")
-const requireValidation = require("..")
+const { check, param } = require("express-validator");
+const requireValidation = require("..");
 
 exports.createAdmin = [
     check("name").notEmpty().withMessage("الاسم مطلوب"),
@@ -10,7 +10,7 @@ exports.createAdmin = [
         .isLength({ min: 6, max: 64 }).withMessage("يجب أن تكون كلمة المرور بين 6 حروف و 64 حرف"),
     check("passwordConfirm").custom((value, { req }) => {
         if (value !== req.body.password) throw new Error("كلمة المرور غير متطابقة")
-        return true
+        return true;
     }),
     requireValidation,
 ]
