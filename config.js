@@ -17,7 +17,8 @@ module.exports = new function () {
 
     this.uploads = {
         avatar: path.join(__dirname, 'uploads', 'avatars'),
-        identity: path.join(__dirname, 'uploads', 'identities')
+        identity: path.join(__dirname, 'uploads', 'identities'),
+        icon: path.join(__dirname, 'uploads', 'icons')
     }
 
     this.uploadSettings = {
