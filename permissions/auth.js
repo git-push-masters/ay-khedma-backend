@@ -5,8 +5,10 @@ const adminsModel = require('../models/admins');
 exports.requireClient = (req, res, next) => {
     if (!req.headers.authorization) return next({ status: 401, msgs: ["يجب تسجيل الدخول للوصول إلى هذه البيانات"] });
     const token = req.headers.authorization.split(' ')[1];
-    if (!usersModel.verifyToken(token)) return next({ status: 401, msgs: ["الجلسة غير صالحة، أعد تسجيل الدخول"] });
+    let userData = usersModel.verifyToken(token);
+    if (!userData) return next({ status: 401, msgs: ["الجلسة غير صالحة، أعد تسجيل الدخول"] });
 
+    req.user = userData;
     next();
 }
 
@@ -14,7 +16,10 @@ exports.requireClient = (req, res, next) => {
 exports.requireAdmin = (req, res, next) => {
     if (!req.headers.authorization) return next({ status: 401, msgs: ["يجب تسجيل الدخول للوصول إلى هذه البيانات"] });
     const token = req.headers.authorization.split(' ')[1];
-    if (!adminsModel.verifyToken(token)) return next({ status: 401, msgs: ["الجلسة غير صالحة، أعد تسجيل الدخول"] });
+    let adminData = adminsModel.verifyToken(token);
+    if (!adminData) return next({ status: 401, msgs: ["الجلسة غير صالحة، أعد تسجيل الدخول"] });
+
+    req.admin = adminData;
 
     next();
 }
