@@ -1,0 +1,97 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "Admins" (
+	"id"	INTEGER,
+	"name"	VARCHAR(255),
+	"username"	VARCHAR(255) NOT NULL UNIQUE,
+	"password"	VARCHAR(255) NOT NULL,
+	"createdAt"	DATETIME NOT NULL,
+	"updatedAt"	DATETIME NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "Sections" (
+	"id"	INTEGER,
+	"name"	VARCHAR(255) NOT NULL,
+	"icon"	VARCHAR(255) DEFAULT '/icons/default.svg',
+	"createdAt"	DATETIME NOT NULL,
+	"updatedAt"	DATETIME NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "Users" (
+	"id"	INTEGER,
+	"phone"	VARCHAR(255) UNIQUE,
+	"isPhoneVisible"	TINYINT(1) DEFAULT 0,
+	"email"	VARCHAR(255) UNIQUE,
+	"isEmailVisible"	TINYINT(1) DEFAULT 0,
+	"password"	VARCHAR(255) NOT NULL,
+	"name"	VARCHAR(255) NOT NULL,
+	"address"	VARCHAR(255),
+	"avatar"	VARCHAR(255) DEFAULT '/avatars/default.png',
+	"identity"	VARCHAR(255),
+	"bio"	TEXT,
+	"locationLat"	FLOAT,
+	"locationLong"	FLOAT,
+	"isLocationVisible"	TINYINT(1) DEFAULT 0,
+	"isTrusted"	TINYINT(1) DEFAULT 0,
+	"createdAt"	DATETIME NOT NULL,
+	"updatedAt"	DATETIME NOT NULL,
+	"SectionId"	INTEGER,
+	FOREIGN KEY("SectionId") REFERENCES "Sections"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "Requests" (
+	"id"	INTEGER,
+	"title"	VARCHAR(255) NOT NULL,
+	"address"	VARCHAR(255),
+	"description"	TEXT,
+	"thumbnailsText"	TEXT DEFAULT '[]',
+	"minPrice"	INTEGER DEFAULT 10,
+	"maxPrice"	INTEGER NOT NULL,
+	"durationRange"	VARCHAR(255) NOT NULL,
+	"locationLat"	FLOAT,
+	"locationLong"	FLOAT,
+	"status"	INTEGER,
+	"createdAt"	DATETIME NOT NULL,
+	"updatedAt"	DATETIME NOT NULL,
+	"UserId"	INTEGER,
+	FOREIGN KEY("UserId") REFERENCES "Users"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "Offers" (
+	"id"	INTEGER,
+	"price"	INTEGER NOT NULL,
+	"scheduledAt"	DATETIME NOT NULL,
+	"lastOffered"	TINYINT(1) DEFAULT 0,
+	"status"	INTEGER DEFAULT 1,
+	"isPaid"	TINYINT(1) DEFAULT 0,
+	"createdAt"	DATETIME NOT NULL,
+	"updatedAt"	DATETIME NOT NULL,
+	"RequestId"	INTEGER,
+	"UserId"	INTEGER,
+	FOREIGN KEY("RequestId") REFERENCES "Requests"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY("UserId") REFERENCES "Users"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "Reports" (
+	"id"	INTEGER,
+	"details"	TEXT,
+	"createdAt"	DATETIME NOT NULL,
+	"updatedAt"	DATETIME NOT NULL,
+	"senderId"	INTEGER,
+	"receiverId"	INTEGER,
+	FOREIGN KEY("senderId") REFERENCES "Users"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY("receiverId") REFERENCES "Users"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS "Reviews" (
+	"id"	INTEGER,
+	"rating"	INTEGER DEFAULT 3,
+	"details"	TEXT,
+	"createdAt"	DATETIME NOT NULL,
+	"updatedAt"	DATETIME NOT NULL,
+	"RequestId"	INTEGER,
+	"UserId"	INTEGER,
+	FOREIGN KEY("UserId") REFERENCES "Users"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY("RequestId") REFERENCES "Requests"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+COMMIT;
