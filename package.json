@@ -1,0 +1,19 @@
+{
+  "name": "ay-khedma-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/git-push-masters/ay-khedma-backend.git"
+  },
+  "author": "Seif El-Din Sweilam, Mohamed El-Sherbiny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/git-push-masters/ay-khedma-backend/issues"
+  },
+  "homepage": "https://github.com/git-push-masters/ay-khedma-backend#readme"
+}
