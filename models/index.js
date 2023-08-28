@@ -1,3 +1,4 @@
+const { sequelize } = require("../config");
 const { Admin } = require("./admins");
 const { Offer } = require("./offers");
 const { Report } = require("./reports");
@@ -29,3 +30,5 @@ Report.belongsTo(User, { as: 'receiver', foreignKey: 'receiverId' });
 
 User.hasMany(Report, { as: 'sentReports', foreignKey: 'senderId' });
 User.hasMany(Report, { as: 'receivedReports', foreignKey: 'receiverId' });
+
+sequelize.sync();

@@ -13,7 +13,7 @@ config.sequelize.validate()
     .then(() => console.log('Connected to database'))
     .catch(() => console.error('Database connection failed'));
 
-/** @TODO Implement Models */
+require('./models');
 
 // CORS Policy Setting
 app.use(cors(config.cors));
