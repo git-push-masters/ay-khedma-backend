@@ -34,4 +34,5 @@ exports.register = [
     check('isLocationVisible')
         .optional()
         .isBoolean().withMessage('تأكد من اختيار اذا كنت تريد أن يظهر موقعك للعامة'),
+    requireValidation
 ]
