@@ -26,7 +26,9 @@ app.use('/api', require('./routes/client'));
 app.use('/dashboard/api', require('./routes/dashboard'));
 
 // Server Error Handler
-/** @TODO Implement error middleware */
+app.use(({ status = 500, msgs = ["حدث خطأ ما"] }, req, res, next) => {
+    res.status(status).json({ status, msgs });
+})
 
 // Serve App
 app.listen(config.port, () => console.log("API Service working on port " + config.port));
