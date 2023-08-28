@@ -22,7 +22,8 @@ app.use(cors(config.cors));
 app.use(express.json());
 
 // Routers
-/** @TODO Implement routes for Client and Dashboard APIs */
+app.use('/api', require('./routes/client'));
+app.use('/dashboard/api', require('./routes/dashboard'));
 
 // Server Error Handler
 /** @TODO Implement error middleware */
