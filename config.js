@@ -1,5 +1,5 @@
 const path = require('path');
-const crypro = require('crypto');
+const crypto = require('crypto');
 const { Sequelize } = require('sequelize');
 const { diskStorage } = require('multer');
 
