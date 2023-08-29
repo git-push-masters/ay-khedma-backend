@@ -1,11 +1,12 @@
-const router = require('express').Router();
+const router = require("express").Router()
 
-const { requireAdmin } = require('../../permissions/auth');
+const { requireAdmin } = require("../../permissions/auth")
 
-router.use('/auth', require('./auth'));
+router.use("/auth", require("./auth"))
 
-router.use(requireAdmin);
+// @TODO uncomment this line
+// router.use(requireAdmin);
 
-router.use('/admins', require('./admins'));
+router.use("/admins", require("./admins"))
 
-module.exports = router;
+module.exports = router
