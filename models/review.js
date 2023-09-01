@@ -8,8 +8,12 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            this.belongsTo(models.Request)
-            this.belongsTo(models.User)
+            this.belongsTo(models.Request, {
+                foreignKey: "requestId",
+            })
+            this.belongsTo(models.User, {
+                foreignKey: "userId",
+            })
         }
     }
     Review.init(

@@ -11,9 +11,15 @@ module.exports = (sequelize, DataTypes) => {
         }
 
         static associate(models) {
-            this.belongsTo(models.User)
-            this.hasMany(models.Offer)
-            this.hasOne(models.Review)
+            this.belongsTo(models.User, {
+                foreignKey: "userId",
+            })
+            this.hasMany(models.Offer, {
+                foreignKey: "requestId",
+            })
+            this.hasOne(models.Review, {
+                foreignKey: "requestId",
+            })
         }
     }
     Request.init(

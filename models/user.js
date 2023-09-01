@@ -7,10 +7,18 @@ const config = require("../config")
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
         static associate(models) {
-            this.belongsTo(models.Section)
-            this.hasMany(models.Request)
-            this.hasMany(models.Offer)
-            this.hasMany(models.Review)
+            this.belongsTo(models.Section, {
+                foreignKey: "sectionId",
+            })
+            this.hasMany(models.Request, {
+                foreignKey: "userId",
+            })
+            this.hasMany(models.Offer, {
+                foreignKey: "userId",
+            })
+            this.hasMany(models.Review, {
+                foreignKey: "userId",
+            })
             this.hasMany(models.Report, {
                 as: "sentReports",
                 foreignKey: "senderId",
