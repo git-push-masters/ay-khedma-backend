@@ -6,6 +6,9 @@ module.exports = (sequelize, DataTypes) => {
             this.hasMany(models.User, {
                 foreignKey: "sectionId",
             })
+            this.hasMany(models.Request, {
+                foreignKey: "sectionId",
+            })
         }
     }
     Section.init(

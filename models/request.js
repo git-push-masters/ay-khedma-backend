@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
             this.hasOne(models.Review, {
                 foreignKey: "requestId",
             })
+            this.belongsTo(models.Section, {
+                foreignKey: "sectionId",
+            })
         }
     }
     Request.init(
