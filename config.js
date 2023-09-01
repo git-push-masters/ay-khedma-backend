@@ -34,11 +34,4 @@ module.exports = new (function () {
   }
 
   this.port = process.env.PORT || 4000
-
-  this.db = {
-    uri:
-      process.env.DB_URI || `sqlite:${path.join("db", "development.sqlite3")}`,
-  }
-
-  this.sequelize = new Sequelize(this.db.uri, { logging: false })
 })()

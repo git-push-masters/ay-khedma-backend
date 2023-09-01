@@ -13,11 +13,10 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 // Database
-config.sequelize.validate()
+const { sequelize } = require('./models');
+sequelize.validate()
     .then(() => console.log('Connected to database'))
     .catch(() => console.error('Database connection failed'));
-
-require('./models');
 
 // CORS Policy Setting
 app.use(cors(config.cors));

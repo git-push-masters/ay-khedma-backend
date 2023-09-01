@@ -4,7 +4,8 @@
     "password": null,
     "database": "database_development",
     "host": "db/development.sqlite3",
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+    "logging": false
   },
   "test": {
     "username": "root",
