@@ -6,13 +6,19 @@ const config = require("../config")
 
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
         static associate(models) {
-            // define association here
+            this.belongsTo(models.Section)
+            this.hasMany(models.Request)
+            this.hasMany(models.Offer)
+            this.hasMany(models.Review)
+            this.hasMany(models.Report, {
+                as: "sentReports",
+                foreignKey: "senderId",
+            })
+            this.hasMany(models.Report, {
+                as: "receivedReports",
+                foreignKey: "receiverId",
+            })
         }
     }
 
