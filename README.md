@@ -20,6 +20,7 @@ This application is the backend application for the API which Ay Khedma Applicat
 * `multer`
 * `pg`
 * `sequelize`
+* `socket.io`
 * `sqlite3`
 
 ### Development Dependencies

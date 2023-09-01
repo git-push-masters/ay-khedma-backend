@@ -1,12 +1,16 @@
+const http = require('http');
 const express = require('express');
 const cors = require('cors');
-const config = require('./config');
+const { Server } = require('socket.io');
 
 // Load .env file
 require('dotenv').config();
+const config = require('./config');
 
 // App Initialize
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
 // Database
 config.sequelize.validate()
@@ -31,4 +35,4 @@ app.use(({ status = 500, msgs = ["حدث خطأ ما"] }, req, res, next) => {
 })
 
 // Serve App
-app.listen(config.port, () => console.log("API Service working on port " + config.port));
+server.listen(config.port, () => console.log("API Service working on port " + config.port));
