@@ -15,22 +15,72 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
         }
     }
+
     User.init(
         {
-            phone: DataTypes.STRING,
-            isPhoneVisible: DataTypes.BOOLEAN,
-            email: DataTypes.STRING,
-            isEmailVisible: DataTypes.BOOLEAN,
-            password: DataTypes.STRING,
-            name: DataTypes.STRING,
-            address: DataTypes.STRING,
-            avatar: DataTypes.STRING,
-            identity: DataTypes.STRING,
-            bio: DataTypes.TEXT,
-            locationLat: DataTypes.FLOAT,
-            locationLong: DataTypes.FLOAT,
-            isLocationVisible: DataTypes.BOOLEAN,
-            isTrusted: DataTypes.BOOLEAN,
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
+            },
+            phone: {
+                type: DataTypes.STRING,
+                unique: true,
+            },
+            isPhoneVisible: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
+            },
+            isPhoneVerified: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
+            },
+            phoneVerificationCode: {
+                type: DataTypes.STRING,
+            },
+            email: {
+                type: DataTypes.STRING,
+                unique: true,
+            },
+            isEmailVisible: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
+            },
+            password: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            address: {
+                type: DataTypes.STRING,
+            },
+            avatar: {
+                type: DataTypes.STRING,
+                defaultValue: "/avatars/default.png",
+            },
+            identity: {
+                type: DataTypes.STRING,
+            },
+            bio: {
+                type: DataTypes.TEXT,
+            },
+            locationLat: {
+                type: DataTypes.FLOAT,
+            },
+            locationLong: {
+                type: DataTypes.FLOAT,
+            },
+            isLocationVisible: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
+            },
+            isTrusted: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
+            },
         },
         {
             sequelize,
