@@ -33,5 +33,8 @@ app.use(({ status = 500, msgs = ["حدث خطأ ما"] }, req, res, next) => {
     res.status(status).json({ status, msgs });
 })
 
+// Socket Handlers
+require('./sockets')(io);
+
 // Serve App
 server.listen(config.port, () => console.log("API Service working on port " + config.port));
