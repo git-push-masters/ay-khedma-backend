@@ -25,6 +25,11 @@ exports.deleteUser = [
     requireValidation
 ]
 
+exports.getUserOffers = [
+    /** @TODO Insert Validators */
+    requireValidation
+]
+
 exports.getUserReviews = [
     /** @TODO Insert Validators */
     requireValidation
