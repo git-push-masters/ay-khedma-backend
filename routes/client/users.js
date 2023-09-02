@@ -8,5 +8,6 @@ router.post('/', ...validator.postUser, ctrl.postUser);
 router.get('/:userId', ...validator.getUser, ctrl.getUser);
 router.patch('/:userId', ...validator.patchUser, ctrl.patchUser);
 router.delete('/:userId', ...validator.deleteUser, ctrl.deleteUser);
+router.get('/:userId/reviews', ...validator.getUserReviews, ctrl.getUserReviews);
 
 module.exports = router;

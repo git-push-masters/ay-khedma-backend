@@ -22,3 +22,8 @@ exports.patchUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
     /** @TODO Implement Controller */
 }
+
+/** @type {import("express").RequestHandler} */
+exports.getUserReviews = async (req, res, next) => {
+    /** @TODO Implement Controller */
+}
