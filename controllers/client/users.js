@@ -27,3 +27,8 @@ exports.deleteUser = async (req, res, next) => {
 exports.getUserReviews = async (req, res, next) => {
     /** @TODO Implement Controller */
 }
+
+/** @type {import("express").RequestHandler} */
+exports.postUserReport = async (req, res, next) => {
+    /** @TODO Implement Controller */
+}

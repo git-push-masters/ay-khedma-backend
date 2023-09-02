@@ -29,3 +29,8 @@ exports.getUserReviews = [
     /** @TODO Insert Validators */
     requireValidation
 ]
+
+exports.postUserReport = [
+    /** @TODO Insert Validators */
+    requireValidation
+]
