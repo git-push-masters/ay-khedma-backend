@@ -13,7 +13,7 @@ router.delete('/:requestId', ...validator.deleteRequest, ctrl.deleteRequest);
 router.get('/:requestId/offers', ...validator.getRequestOffers, ctrl.getRequestOffers);
 router.post('/:requestId/offers', ...validator.postRequestOffer, ctrl.postRequestOffer);
 
-router.get('/:requestId/offers/offerId', ...validator.getRequestOffer, ctrl.getRequestOffer);
+router.get('/:requestId/offers/:offerId', ...validator.getRequestOffer, ctrl.getRequestOffer);
 
 router.get('/:requestId/review', ...validator.getRequestReview, ctrl.getRequestReview);
 router.post('/:requestId/review', ...validator.postRequestReview, ctrl.postRequestReview);

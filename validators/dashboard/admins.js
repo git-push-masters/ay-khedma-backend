@@ -1,7 +1,7 @@
 const { check, param } = require("express-validator");
 const requireValidation = require("..");
 
-exports.createAdmin = [
+exports.postAdmin = [
     check("name").notEmpty().withMessage("الاسم مطلوب"),
     check("username").notEmpty().withMessage("اسم المستخدم مطلوب"),
     check("password")
@@ -15,7 +15,7 @@ exports.createAdmin = [
     requireValidation,
 ]
 
-exports.updateAdmin = [
+exports.patchAdmin = [
     param("adminId")
         .notEmpty().withMessage("يجب تحديد المدير المطلوب")
         .bail()

@@ -7,10 +7,10 @@ const validator = require("../../validators/dashboard/admins");
 router.get("/", ctrl.getAdmins);
 
 // create new admin
-router.post("/", ...validator.createAdmin, ctrl.createAdmin);
+router.post("/", ...validator.postAdmin, ctrl.postAdmin);
 
 // update admin
-router.patch("/:adminId", ...validator.updateAdmin, ctrl.updateAdmin);
+router.patch("/:adminId", ...validator.patchAdmin, ctrl.patchAdmin);
 
 // delete admin
 router.delete("/:adminId", ...validator.deleteAdmin, ctrl.deleteAdmin);

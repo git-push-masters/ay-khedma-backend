@@ -1,7 +1,7 @@
 const adminsModel = require("../../models").Admin
 
 /** @type {import("express").RequestHandler} */
-exports.createAdmin = async (req, res, next) => {
+exports.postAdmin = async (req, res, next) => {
     try {
         const { username, name, password } = req.body
 
@@ -37,7 +37,7 @@ exports.getAdmins = async (req, res, next) => {
 }
 
 /** @type {import("express").RequestHandler} */
-exports.updateAdmin = async (req, res, next) => {
+exports.patchAdmin = async (req, res, next) => {
     try {
         await adminsModel.updateAdmin(
             req.params.adminId,
