@@ -50,3 +50,28 @@ exports.patchRequest = async (req, res, next) => {
 exports.deleteRequest = async (req, res, next) => {
     /** @TODO Implement Controller */
 }
+
+/** @type {import("express").RequestHandler} */
+exports.getRequestOffers = async (req, res, next) => {
+    /** @TODO Implement Controller */
+}
+
+/** @type {import("express").RequestHandler} */
+exports.getRequestOffer = async (req, res, next) => {
+    /** @TODO Implement Controller */
+}
+
+/** @type {import("express").RequestHandler} */
+exports.postRequestOffer = async (req, res, next) => {
+    /** @TODO Implement Controller */
+}
+
+/** @type {import("express").RequestHandler} */
+exports.getRequestReview = async (req, res, next) => {
+    /** @TODO Implement Controller */
+}
+
+/** @type {import("express").RequestHandler} */
+exports.postRequestReview = async (req, res, next) => {
+    /** @TODO Implement Controller */
+}
