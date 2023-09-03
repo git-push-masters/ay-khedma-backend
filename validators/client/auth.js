@@ -36,3 +36,8 @@ exports.register = [
         .isBoolean().withMessage('تأكد من اختيار اذا كنت تريد أن يظهر موقعك للعامة'),
     requireValidation
 ]
+
+exports.verify = [
+    /** @TODO Insert Validators */
+    requireValidation
+]

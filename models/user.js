@@ -123,7 +123,8 @@ module.exports = (sequelize, DataTypes) => {
         locationLong,
         isPhoneVisible,
         isEmailVisible,
-        isLocationVisible
+        isLocationVisible,
+        sectionId
     ) => {
         let data = { name, phone }
         data.password = await bcrypt.hash(password, 10)
@@ -137,6 +138,7 @@ module.exports = (sequelize, DataTypes) => {
         isPhoneVisible && (data.isPhoneVisible = isPhoneVisible)
         isEmailVisible && (data.isEmailVisible = isEmailVisible)
         isLocationVisible && (data.isLocationVisible = isLocationVisible)
+        sectionId && (data.sectionId = sectionId)
         return await User.create(data)
     }
 
@@ -164,6 +166,11 @@ module.exports = (sequelize, DataTypes) => {
         } catch (err) {
             return false
         }
+    }
+
+    User.verifyCode = async (user, code) => {
+        /** @TODO Add logic to verify user code */
+        return true;
     }
 
     return User
