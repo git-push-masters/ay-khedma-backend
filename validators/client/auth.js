@@ -16,6 +16,10 @@ exports.register = [
         .notEmpty().withMessage('رقم الهاتف مطلوب')
         .bail()
         .isLength({ min: 11, max: 11 }).withMessage('يجب أن يتكون رقم الهاتف من 11 رقم'),
+    check('password')
+        .notEmpty().withMessage('كلمة المرور مطلوبة')
+        .bail()
+        .isLength({ min: 6, max: 64 }).withMessage("يجب أن تكون كلمة المرور بين 6 حروف و 64 حرف"),
     check('email')
         .optional()
         .isEmail().withMessage("البريد الإلكتروني غير صالح"),
@@ -38,6 +42,10 @@ exports.register = [
 ]
 
 exports.verify = [
-    /** @TODO Insert Validators */
+    ...this.login,
+    check('code')
+        .notEmpty().withMessage('يجب إدخال كود التفعيل')
+        .bail()
+        .isLength({ min: 6, max: 6 }).withMessage('كود التفعيل يتكون من 6 أرقام'),
     requireValidation
 ]

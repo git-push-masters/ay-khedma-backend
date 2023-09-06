@@ -29,9 +29,12 @@ app.use(express.json())
 app.use("/api", require("./routes/client"))
 app.use("/dashboard/api", require("./routes/dashboard"))
 
+// 404 Handler
+app.use((req, res, next) => next({ status: 404, msgs: ["المحتوى الذي تحاول الدخول عليه غير موجود"] }));
+
 // Server Error Handler
 app.use(({ status = 500, msgs = ["حدث خطأ ما"] }, req, res, next) => {
-    res.status(status).json({ status, msgs })
+    res.status(status).json({ success: false, status, msgs })
 })
 
 // Socket Handlers

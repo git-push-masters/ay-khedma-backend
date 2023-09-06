@@ -110,11 +110,12 @@ module.exports = (sequelize, DataTypes) => {
         return await User.findByPk(userId, { include: Section })
     }
 
-    User.createUser = async (
+    User.createUser = async ({
         name,
         phone,
         email,
         password,
+        phoneVerificationCode,
         avatar,
         identity,
         address,
@@ -125,8 +126,8 @@ module.exports = (sequelize, DataTypes) => {
         isEmailVisible,
         isLocationVisible,
         sectionId
-    ) => {
-        let data = { name, phone }
+    }) => {
+        let data = { name, phone, phoneVerificationCode }
         data.password = await bcrypt.hash(password, 10)
         email && (data.email = email)
         avatar && (data.avatar = avatar)
@@ -169,7 +170,9 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     User.verifyCode = async (user, code) => {
-        /** @TODO Add logic to verify user code */
+        if (user.phoneVerificationCode !== code) return false;
+        user.isPhoneVerified = true;
+        await user.save();
         return true;
     }
 
