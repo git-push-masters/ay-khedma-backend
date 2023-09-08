@@ -38,6 +38,12 @@ exports.register = [
     check('isLocationVisible')
         .optional()
         .isBoolean().withMessage('تأكد من اختيار اذا كنت تريد أن يظهر موقعك للعامة'),
+    check('avatar')
+        .optional()
+        .isURL().withMessage('عنوان الصورة غير صالح'),
+    check('identity')
+        .optional()
+        .isURL().withMessage('عنوان الهوية الشخصية غير صالح'),
     requireValidation
 ]
 

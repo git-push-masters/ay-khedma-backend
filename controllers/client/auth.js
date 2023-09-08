@@ -33,10 +33,10 @@ exports.login = async (req, res, next) => {
 /** @type {import("express").RequestHandler} */
 exports.register = async (req, res, next) => {
     try {
-        let avatar = req.files?.avatar ? req.files.avatar[0] : undefined;
-        let identity = req.files?.identity ? req.files.identity[0] : undefined;
+        let user = await usersModel.getUserByPhone(req.body.phone);
+        if (user) return next({ status: 400, msgs: ['هذا الحساب موجود من قبل'] });
         let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
-        await usersModel.createUser({ ...req.body, avatar, identity, phoneVerificationCode });
+        await usersModel.createUser({ ...req.body, phoneVerificationCode });
         await sms.sendVerificationSMS(req.body.phone, phoneVerificationCode);
         res.status(201).json({
             success: true,
