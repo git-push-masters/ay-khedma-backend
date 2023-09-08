@@ -1,6 +1,5 @@
 const path = require("path")
 const crypto = require("crypto")
-const { Sequelize } = require("sequelize")
 const { diskStorage } = require("multer")
 
 module.exports = new (function () {
@@ -22,6 +21,7 @@ module.exports = new (function () {
     avatar: path.join(__dirname, "uploads", "avatars"),
     identity: path.join(__dirname, "uploads", "identities"),
     icon: path.join(__dirname, "uploads", "icons"),
+    thumbnail: path.join(__dirname, "uploads", "thumbnails"),
   }
 
   this.uploadSettings = {
@@ -29,7 +29,7 @@ module.exports = new (function () {
       destination: (req, file, callback) =>
         callback(null, this.uploads[file.fieldname]),
       filename: (req, file, callback) =>
-        callback(null, `${Date.now()}-${file.originalname}`),
+        callback(null, `${Date.now()}-${file.originalname.replace(/\s+/g, '')}`),
     }),
   }
 

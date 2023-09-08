@@ -26,6 +26,7 @@ app.use(cors(config.cors))
 app.use(express.json())
 
 // Routers
+app.use("/api", require("./routes/files"))
 app.use("/api", require("./routes/client"))
 app.use("/dashboard/api", require("./routes/dashboard"))
 
