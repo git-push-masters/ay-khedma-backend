@@ -37,7 +37,7 @@ exports.register = async (req, res, next) => {
         let identity = req.files?.identity ? req.files.identity[0] : undefined;
         let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
         await usersModel.createUser({ ...req.body, avatar, identity, phoneVerificationCode });
-        await sms.sendVerificationSMS(phone, code);
+        await sms.sendVerificationSMS(req.body.phone, phoneVerificationCode);
         res.status(201).json({
             success: true,
             status: 201,
