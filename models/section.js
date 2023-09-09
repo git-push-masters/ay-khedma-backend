@@ -27,5 +27,10 @@ module.exports = (sequelize, DataTypes) => {
             modelName: "Section",
         }
     )
+
+    Section.getSectionById = async (sectionId) => {
+        return await Section.findByPk(sectionId);
+    }
+
     return Section
 }

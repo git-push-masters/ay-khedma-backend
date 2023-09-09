@@ -27,5 +27,16 @@ module.exports = (sequelize, DataTypes) => {
         }
     )
 
+    Review.getReviewByRequestId = async (requestId) => {
+        return await Review.findOne({ where: { requestId } });
+    }
+
+    Review.createReview = async (userId, requestId, { rating, details }) => {
+        let data = { requestId, userId };
+        rating && (data.rating = rating);
+        details && (data.details = details);
+        return await Review.create(data);
+    }
+
     return Review
 }

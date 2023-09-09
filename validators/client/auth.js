@@ -1,5 +1,6 @@
 const { check } = require("express-validator");
 const requireValidation = require('..');
+const sectionsModel = require('../../models').Section;
 
 exports.login = [
     check('phone')
@@ -44,6 +45,15 @@ exports.register = [
     check('identity')
         .optional()
         .isURL().withMessage('عنوان الهوية الشخصية غير صالح'),
+    check('sectionId')
+        .optional()
+        .isInt().withMessage('القسم غير صالح')
+        .bail()
+        .custom(async (sectionId) => {
+            let section = await sectionsModel.getSectionById(sectionId);
+            if (!section) return Promise.reject('القسم غير موجود');
+            Promise.resolve();
+        }),
     requireValidation
 ]
 

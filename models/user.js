@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken")
 const config = require("../config")
 
 module.exports = (sequelize, DataTypes) => {
+    const Section = require('./section')(sequelize, DataTypes);
+
     class User extends Model {
         static associate(models) {
             this.belongsTo(models.Section, {

@@ -1,7 +1,8 @@
 "use strict"
-const { Model } = require("sequelize")
+const { Model, Op } = require("sequelize")
 module.exports = (sequelize, DataTypes) => {
     const Section = require('./section')(sequelize, DataTypes);
+    const User = require('./user')(sequelize, DataTypes);
 
     class Request extends Model {
         get thumbnails() {
@@ -71,23 +72,24 @@ module.exports = (sequelize, DataTypes) => {
         }
     )
 
-    Request.getRequests = async (status = 1, sectionId, locationLat, locationLong, page = 1, limit = 10) => {
+    Request.getRequests = async ({ query, status = 1, sectionId, locationLat, locationLong, page = 1, limit = 10 }) => {
         let options = { where: { status }, limit, offset: (page - 1) * limit };
+        query && (options.where.title = { [Op.like]: `%${query}%` });
         sectionId && (options.where.sectionId = sectionId);
         let distanceField = sequelize.literal(`sqrt(pow(${locationLat} - "locationLat", 2) + pow(${locationLong} - "locationLong", 2))`);
         if (locationLat && locationLong) {
-            options.attributes = ["id", "title", "address", "description", "minPrice", "maxPrice", "durationRange", "locationLat", "locationLong", [distanceField, "distance"]];
-            options.order = ["distance ASC"];
+            options.attributes = ["id", "title", "address", "description", "minPrice", "maxPrice", "durationRange", "locationLat", "locationLong", "sectionId", [distanceField, "distance"]];
+            options.order = [["distance", "ASC"]];
         }
         return await Request.findAll(options);
     }
 
     Request.getRequestById = async (requestId) => {
-        return await Request.findByPk(requestId, { include: Section });
+        return await Request.findByPk(requestId, { include: [Section, User] });
     }
 
-    Request.createRequest = async (title, address, description, thumbnails, sectionId, minPrice, maxPrice, durationRange, locationLat, locationLong) => {
-        let data = { title, sectionId, maxPrice };
+    Request.createRequest = async ({ title, address, description, thumbnails, userId, sectionId, minPrice, maxPrice, durationRange, locationLat, locationLong }) => {
+        let data = { title, userId, sectionId, maxPrice };
         address && (data.address = address);
         description && (data.description = description);
         thumbnails && (data.thumbnails = thumbnails);
@@ -98,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
         return await Request.create(data);
     }
 
-    Request.updateRequest = async (requestId, title, address, description, thumbnails, sectionId, minPrice, maxPrice, durationRange, locationLat, locationLong) => {
+    Request.updateRequest = async (requestId, { title, address, description, thumbnails, sectionId, minPrice, maxPrice, durationRange, locationLat, locationLong }) => {
         let data = { title, sectionId, maxPrice };
         address && (data.address = address);
         description && (data.description = description);
