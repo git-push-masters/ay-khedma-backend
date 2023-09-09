@@ -1,8 +1,8 @@
-"use strict"
-const { Model } = require("sequelize")
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
-const config = require("../config")
+"use strict";
+const { Model } = require("sequelize");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
 
 module.exports = (sequelize, DataTypes) => {
     class Admin extends Model {
@@ -25,28 +25,28 @@ module.exports = (sequelize, DataTypes) => {
             sequelize,
             modelName: "Admin",
         }
-    )
+    );
 
     Admin.getAllAdmins = async () => {
         const admins = await Admin.findAll({
             attributes: ["id", "name", "username"],
-        })
-        return admins
-    }
+        });
+        return admins;
+    };
 
     Admin.getAdminByUsername = async username => {
-        return await Admin.findOne({ where: { username } })
-    }
+        return await Admin.findOne({ where: { username } });
+    };
 
     Admin.createAdmin = async (username, name, password) => {
-        let data = { name, username }
-        data.password = await bcrypt.hash(password, 10)
-        return await Admin.create(data)
-    }
+        let data = { name, username };
+        data.password = await bcrypt.hash(password, 10);
+        return await Admin.create(data);
+    };
 
     Admin.verifyPassword = async (user, password) => {
-        return await bcrypt.compare(password, user.password)
-    }
+        return await bcrypt.compare(password, user.password);
+    };
 
     Admin.generateToken = user => {
         return jwt.sign(
@@ -57,35 +57,35 @@ module.exports = (sequelize, DataTypes) => {
                 role: 1,
             },
             config.secret
-        )
-    }
+        );
+    };
 
     Admin.verifyToken = token => {
         try {
-            let data = jwt.verify(token, config.secret)
-            if (data.role === 1) return data
-            return false
+            let data = jwt.verify(token, config.secret);
+            if (data.role === 1) return data;
+            return false;
         } catch (err) {
-            return false
+            return false;
         }
-    }
+    };
 
     Admin.getAllAdmins = async () => {
-        return await Admin.findAll({ attributes: ["id", "username", "name"] })
-    }
+        return await Admin.findAll({ attributes: ["id", "username", "name"] });
+    };
 
     Admin.updateAdmin = async (adminId, name, username, password) => {
-        let data = {}
-        name && (data.name = name)
-        username && (data.username = username)
-        password && (data.password = await bcrypt.hash(password, 10))
+        let data = {};
+        name && (data.name = name);
+        username && (data.username = username);
+        password && (data.password = await bcrypt.hash(password, 10));
 
-        return await Admin.update(data, { where: { id: adminId } })
-    }
+        return await Admin.update(data, { where: { id: adminId } });
+    };
 
     Admin.deleteAdmin = async adminId => {
-        return await Admin.destroy({ where: { id: adminId } })
-    }
+        return await Admin.destroy({ where: { id: adminId } });
+    };
 
-    return Admin
-}
+    return Admin;
+};
