@@ -2,7 +2,7 @@ const usersModel = require("../models").User;
 const adminsModel = require("../models").Admin;
 
 /** @type {import("express").RequestHandler} */
-exports.requireClient = (req, res, next) => {
+exports.requireClient = async (req, res, next) => {
     try {
         if (!req.headers.authorization)
             return next({
@@ -10,7 +10,7 @@ exports.requireClient = (req, res, next) => {
                 msgs: ["يجب تسجيل الدخول للوصول إلى هذه البيانات"],
             });
         const token = req.headers.authorization.split(" ")[1];
-        let userData = usersModel.verifyToken(token);
+        let userData = await usersModel.verifyToken(token);
         if (!userData)
             return next({
                 status: 401,
@@ -27,7 +27,7 @@ exports.requireClient = (req, res, next) => {
 };
 
 /** @type {import("express").RequestHandler} */
-exports.requireAdmin = (req, res, next) => {
+exports.requireAdmin = async (req, res, next) => {
     try {
         if (!req.headers.authorization)
             return next({
@@ -35,7 +35,7 @@ exports.requireAdmin = (req, res, next) => {
                 msgs: ["يجب تسجيل الدخول للوصول إلى هذه البيانات"],
             });
         const token = req.headers.authorization.split(" ")[1];
-        let adminData = adminsModel.verifyToken(token);
+        let adminData = await adminsModel.verifyToken(token);
         if (!adminData)
             return next({
                 status: 401,

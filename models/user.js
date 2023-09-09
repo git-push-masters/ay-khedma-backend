@@ -1,34 +1,34 @@
-"use strict"
-const { Model } = require("sequelize")
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
-const config = require("../config")
+"use strict";
+const { Model } = require("sequelize");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
 
 module.exports = (sequelize, DataTypes) => {
-    const Section = require('./section')(sequelize, DataTypes);
+    const Section = require("./section")(sequelize, DataTypes);
 
     class User extends Model {
         static associate(models) {
             this.belongsTo(models.Section, {
                 foreignKey: "sectionId",
-            })
+            });
             this.hasMany(models.Request, {
                 foreignKey: "userId",
-            })
+            });
             this.hasMany(models.Offer, {
                 foreignKey: "userId",
-            })
+            });
             this.hasMany(models.Review, {
                 foreignKey: "userId",
-            })
+            });
             this.hasMany(models.Report, {
                 as: "sentReports",
                 foreignKey: "senderId",
-            })
+            });
             this.hasMany(models.Report, {
                 as: "receivedReports",
                 foreignKey: "receiverId",
-            })
+            });
         }
     }
 
@@ -102,15 +102,15 @@ module.exports = (sequelize, DataTypes) => {
             sequelize,
             modelName: "User",
         }
-    )
+    );
 
     User.getUserByPhone = async phone => {
-        return await User.findOne({ where: { phone } })
-    }
+        return await User.findOne({ where: { phone } });
+    };
 
     User.getUserById = async userId => {
-        return await User.findByPk(userId, { include: Section })
-    }
+        return await User.findByPk(userId, { include: Section });
+    };
 
     User.createUser = async ({
         name,
@@ -127,27 +127,27 @@ module.exports = (sequelize, DataTypes) => {
         isPhoneVisible,
         isEmailVisible,
         isLocationVisible,
-        sectionId
+        sectionId,
     }) => {
-        let data = { name, phone, phoneVerificationCode }
-        data.password = await bcrypt.hash(password, 10)
-        email && (data.email = email)
-        avatar && (data.avatar = avatar)
-        identity && (data.identity = identity)
-        address && (data.address = address)
-        bio && (data.bio = bio)
-        locationLat && (data.locationLat = locationLat)
-        locationLong && (data.locationLong = locationLong)
-        isPhoneVisible && (data.isPhoneVisible = isPhoneVisible)
-        isEmailVisible && (data.isEmailVisible = isEmailVisible)
-        isLocationVisible && (data.isLocationVisible = isLocationVisible)
-        sectionId && (data.sectionId = sectionId)
-        return await User.create(data)
-    }
+        let data = { name, phone, phoneVerificationCode };
+        data.password = await bcrypt.hash(password, 10);
+        email && (data.email = email);
+        avatar && (data.avatar = avatar);
+        identity && (data.identity = identity);
+        address && (data.address = address);
+        bio && (data.bio = bio);
+        locationLat && (data.locationLat = locationLat);
+        locationLong && (data.locationLong = locationLong);
+        isPhoneVisible && (data.isPhoneVisible = isPhoneVisible);
+        isEmailVisible && (data.isEmailVisible = isEmailVisible);
+        isLocationVisible && (data.isLocationVisible = isLocationVisible);
+        sectionId && (data.sectionId = sectionId);
+        return await User.create(data);
+    };
 
     User.verifyPassword = async (user, password) => {
-        return await bcrypt.compare(password, user.password)
-    }
+        return await bcrypt.compare(password, user.password);
+    };
 
     User.generateToken = user => {
         return jwt.sign(
@@ -158,25 +158,26 @@ module.exports = (sequelize, DataTypes) => {
                 role: 0,
             },
             config.secret
-        )
-    }
+        );
+    };
 
-    User.verifyToken = token => {
+    User.verifyToken = async token => {
         try {
-            let data = jwt.verify(token, config.secret)
-            if (data.role === 0) return data
-            return false
+            let data = jwt.verify(token, config.secret);
+            let user = await User.findByPk(data.id);
+            if (!user || data.role !== 0) return false;
+            return data;
         } catch (err) {
-            return false
+            return false;
         }
-    }
+    };
 
     User.verifyCode = async (user, code) => {
         if (user.phoneVerificationCode !== code) return false;
         user.isPhoneVerified = true;
         await user.save();
         return true;
-    }
+    };
 
-    return User
-}
+    return User;
+};

@@ -60,11 +60,12 @@ module.exports = (sequelize, DataTypes) => {
         );
     };
 
-    Admin.verifyToken = token => {
+    Admin.verifyToken = async token => {
         try {
             let data = jwt.verify(token, config.secret);
-            if (data.role === 1) return data;
-            return false;
+            const admin = await Admin.findByPk(data.id);
+            if (!admin || data.role !== 1) return false;
+            return data;
         } catch (err) {
             return false;
         }
