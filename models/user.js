@@ -104,6 +104,10 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
+    User.getAllUsers = async () => {
+        return await User.findAll({ include: Section });
+    };
+
     User.getUserByPhone = async phone => {
         return await User.findOne({ where: { phone } });
     };
@@ -143,6 +147,47 @@ module.exports = (sequelize, DataTypes) => {
         isLocationVisible && (data.isLocationVisible = isLocationVisible);
         sectionId && (data.sectionId = sectionId);
         return await User.create(data);
+    };
+
+    User.updateUser = async (
+        userId,
+        {
+            name,
+            phone,
+            email,
+            avatar,
+            identity,
+            address,
+            bio,
+            locationLat,
+            locationLong,
+            isPhoneVisible,
+            isEmailVisible,
+            isLocationVisible,
+            sectionId,
+        }
+    ) => {
+        const user = await User.findByPk(userId);
+        name && (user.name = name);
+        phone && (user.phone = phone);
+        email && (user.email = email);
+        avatar && (user.avatar = avatar);
+        identity && (user.identity = identity);
+        address && (user.address = address);
+        bio && (user.bio = bio);
+        locationLat && (user.locationLat = locationLat);
+        locationLong && (user.locationLong = locationLong);
+        isPhoneVisible && (user.isPhoneVisible = isPhoneVisible);
+        isEmailVisible && (user.isEmailVisible = isEmailVisible);
+        isLocationVisible && (user.isLocationVisible = isLocationVisible);
+        sectionId && (user.sectionId = sectionId);
+
+        return await user.save();
+    };
+
+    User.deleteUser = async userId => {
+        const user = await User.findByPk(userId);
+        return await user.destroy();
     };
 
     User.verifyPassword = async (user, password) => {
