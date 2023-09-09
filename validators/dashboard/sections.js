@@ -1,26 +1,27 @@
-const requireValidation = require('..');
+const { param, check } = require("express-validator");
+const requireValidation = require("..");
 
-exports.getSections = [
-    /** @TODO Insert Validators */
-    requireValidation
-]
+exports.getSections = [requireValidation];
 
 exports.getSection = [
-    /** @TODO Insert Validators */
-    requireValidation
-]
+    param("sectionId").notEmpty().withMessage("يجب إدخال رقم القسم"),
+    requireValidation,
+];
 
 exports.postSection = [
-    /** @TODO Insert Validators */
-    requireValidation
-]
+    check("name").notEmpty().withMessage("يجب إدخال اسم التخصص"),
+    check("icon").optional().isURL().withMessage("عنوان الصورة غير صالح"),
+    requireValidation,
+];
 
 exports.patchSection = [
-    /** @TODO Insert Validators */
-    requireValidation
-]
+    param("sectionId").notEmpty().withMessage("يجب إدخال رقم القسم"),
+    check("name").optional().notEmpty().withMessage("يجب إدخال اسم التخصص"),
+    check("icon").optional().isURL().withMessage("عنوان الصورة غير صالح"),
+    requireValidation,
+];
 
 exports.deleteSection = [
-    /** @TODO Insert Validators */
-    requireValidation
-]
+    param("sectionId").notEmpty().withMessage("يجب إدخال رقم القسم"),
+    requireValidation,
+];
