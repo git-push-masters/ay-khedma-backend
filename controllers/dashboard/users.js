@@ -3,7 +3,7 @@ const usersModel = require("../../models").User;
 /** @type {import("express").RequestHandler} */
 exports.getUsers = async (req, res, next) => {
     try {
-        const users = await usersModel.getAllUsers();
+        const users = await usersModel.getAllUsers(req.query);
         res.status(200).json({
             status: 200,
             data: users,

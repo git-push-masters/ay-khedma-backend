@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Op } = require("sequelize");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
@@ -104,8 +104,25 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    User.getAllUsers = async () => {
-        return await User.findAll({ include: Section });
+    User.getAllUsers = async ({ sectionId, query, page = 1, limit = 10 }) => {
+        const options = {
+            where: {},
+            limit,
+            offset: (page - 1) * 10,
+        };
+
+        if (sectionId) options.where.sectionId = sectionId;
+        if (query) {
+            options.where = {
+                [Op.or]: [
+                    { name: { [Op.like]: `%${query}%` } },
+                    { phone: { [Op.like]: `%${query}%` } },
+                    { email: { [Op.like]: `%${query}%` } },
+                ],
+            };
+        }
+
+        return await User.findAll(options);
     };
 
     User.getUserByPhone = async phone => {
