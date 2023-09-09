@@ -167,22 +167,23 @@ module.exports = (sequelize, DataTypes) => {
             sectionId,
         }
     ) => {
-        const user = await User.findByPk(userId);
-        name && (user.name = name);
-        phone && (user.phone = phone);
-        email && (user.email = email);
-        avatar && (user.avatar = avatar);
-        identity && (user.identity = identity);
-        address && (user.address = address);
-        bio && (user.bio = bio);
-        locationLat && (user.locationLat = locationLat);
-        locationLong && (user.locationLong = locationLong);
-        isPhoneVisible && (user.isPhoneVisible = isPhoneVisible);
-        isEmailVisible && (user.isEmailVisible = isEmailVisible);
-        isLocationVisible && (user.isLocationVisible = isLocationVisible);
-        sectionId && (user.sectionId = sectionId);
+        const data = {};
 
-        return await user.save();
+        name && (data.name = name);
+        phone && (data.phone = phone);
+        email && (data.email = email);
+        avatar && (data.avatar = avatar);
+        identity && (data.identity = identity);
+        address && (data.address = address);
+        bio && (data.bio = bio);
+        locationLat && (data.locationLat = locationLat);
+        locationLong && (data.locationLong = locationLong);
+        isPhoneVisible && (data.isPhoneVisible = isPhoneVisible);
+        isEmailVisible && (data.isEmailVisible = isEmailVisible);
+        isLocationVisible && (data.isLocationVisible = isLocationVisible);
+        sectionId && (data.sectionId = sectionId);
+
+        return await User.update(data, { where: { id: userId } });
     };
 
     User.deleteUser = async userId => {
