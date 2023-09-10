@@ -89,19 +89,9 @@ module.exports = (sequelize, DataTypes) => {
             `sqrt(pow(${locationLat} - "locationLat", 2) + pow(${locationLong} - "locationLong", 2))`
         );
         if (locationLat && locationLong) {
-            options.attributes = [
-                "id",
-                "title",
-                "address",
-                "description",
-                "minPrice",
-                "maxPrice",
-                "durationRange",
-                "locationLat",
-                "locationLong",
-                "sectionId",
-                [distanceField, "distance"],
-            ];
+            options.attributes = {
+                include: [[distanceField, "distance"]],
+            };
             options.order = [["distance", "ASC"]];
         }
         return await Request.findAll(options);

@@ -104,14 +104,20 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    User.getAllUsers = async ({ sectionId, query, page = 1, limit = 10 }) => {
+    User.getAllUsers = async ({
+        sectionId,
+        query,
+        locationLat,
+        locationLong,
+        page = 1,
+        limit = 10,
+    }) => {
         const options = {
             where: {},
             limit,
             offset: (page - 1) * 10,
         };
 
-        if (sectionId) options.where.sectionId = sectionId;
         if (query) {
             options.where = {
                 [Op.or]: [
@@ -122,6 +128,19 @@ module.exports = (sequelize, DataTypes) => {
             };
         }
 
+        let distanceField = sequelize.literal(
+            `sqrt(pow(${locationLat} - "locationLat", 2) + pow(${locationLong} - "locationLong", 2))`
+        );
+
+        if (locationLat && locationLong) {
+            options.attributes = {
+                include: [[distanceField, "distance"]],
+                exclude: ["password", "phoneVerificationCode"],
+            };
+            options.order = [["distance", "ASC"]];
+        }
+
+        if (sectionId) options.where.sectionId = sectionId;
         return await User.findAll(options);
     };
 
