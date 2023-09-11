@@ -95,7 +95,20 @@ exports.getUserOffers = async (req, res, next) => {
 
 /** @type {import("express").RequestHandler} */
 exports.getUserReviews = async (req, res, next) => {
-    /** @TODO Implement Controller */
+    try {
+        let reviews = reviewsModel.getReviews(req.params.userId, req.query);
+        res.status(200).json({
+            success: true,
+            status: 200,
+            msgs: [],
+            count: reviews.length,
+            page: req.query.page || 1,
+            body: reviews
+        })
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
 }
 
 /** @type {import("express").RequestHandler} */
