@@ -27,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
         }
     )
 
+    Review.getReviews = async (userId, { page = 1, limit = 10 }) => {
+        let options = { where: {}, limit, offset: (page-1) * limit }
+        userId && (options.where.userId = userId);
+        return await Review.findAll(options);
+    }
+
     Review.getReviewByRequestId = async (requestId) => {
         return await Review.findOne({ where: { requestId } });
     }

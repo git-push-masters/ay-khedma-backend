@@ -104,7 +104,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    User.getAllUsers = async ({
+    User.getUsers = async ({
         sectionId,
         query,
         locationLat,
@@ -112,25 +112,17 @@ module.exports = (sequelize, DataTypes) => {
         page = 1,
         limit = 10,
     }) => {
-        const options = {
-            where: {},
-            limit,
-            offset: (page - 1) * 10,
-        };
+        const options = { where: {}, limit, offset: (page - 1) * 10, };
 
         if (query) {
-            options.where = {
-                [Op.or]: [
-                    { name: { [Op.like]: `%${query}%` } },
-                    { phone: { [Op.like]: `%${query}%` } },
-                    { email: { [Op.like]: `%${query}%` } },
-                ],
-            };
+            options.where[[Op.or]] = [
+                { name: { [Op.like]: `%${query}%` } },
+                { phone: { [Op.like]: `%${query}%` } },
+                { email: { [Op.like]: `%${query}%` } },
+            ];
         }
 
-        let distanceField = sequelize.literal(
-            `sqrt(pow(${locationLat} - "locationLat", 2) + pow(${locationLong} - "locationLong", 2))`
-        );
+        let distanceField = sequelize.literal(`sqrt(pow(${locationLat} - "locationLat", 2) + pow(${locationLong} - "locationLong", 2))`);
 
         if (locationLat && locationLong) {
             options.attributes = {
@@ -149,7 +141,15 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     User.getUserById = async userId => {
-        return await User.findByPk(userId, { include: Section });
+        return await User.findByPk(userId, {
+            include: {
+                model: Section,
+                required: false
+            },
+            attributes: {
+                exclude: ['password', 'phoneVerificationCode']
+            }
+        });
     };
 
     User.createUser = async ({
@@ -223,8 +223,7 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     User.deleteUser = async userId => {
-        const user = await User.findByPk(userId);
-        return await user.destroy();
+        return await User.destroy({ where: { id: userId } });
     };
 
     User.verifyPassword = async (user, password) => {

@@ -3,7 +3,7 @@ const sectionsModel = require("../../models").Section;
 /** @type {import("express").RequestHandler} */
 exports.getSections = async (req, res, next) => {
     try {
-        const sections = await sectionsModel.getAllSections();
+        const sections = await sectionsModel.getSections();
         res.status(200).json({
             status: 200,
             data: sections,
