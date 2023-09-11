@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    Admin.getAllAdmins = async () => {
+    Admin.getAdmins = async () => {
         const admins = await Admin.findAll({
             attributes: ["id", "name", "username"],
         });
@@ -71,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
 
-    Admin.getAllAdmins = async () => {
+    Admin.getAdmins = async () => {
         return await Admin.findAll({ attributes: ["id", "username", "name"] });
     };
 

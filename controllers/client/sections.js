@@ -4,7 +4,7 @@ const requestsModel = require('../../models').Request;
 /** @type {import("express").RequestHandler} */
 exports.getSections = async (req, res, next) => {
     try {
-        let sections = await sectionsModel.getAllSections();
+        let sections = await sectionsModel.getSections();
         res.status(200).json({
             success: true,
             status: 200,

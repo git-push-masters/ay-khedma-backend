@@ -24,7 +24,7 @@ exports.postAdmin = async (req, res, next) => {
 /** @type {import("express").RequestHandler} */
 exports.getAdmins = async (req, res, next) => {
     try {
-        const admins = await adminsModel.getAllAdmins();
+        const admins = await adminsModel.getAdmins();
         res.status(200).json({
             status: 200,
             data: admins,

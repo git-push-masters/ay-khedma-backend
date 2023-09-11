@@ -22,5 +22,10 @@ module.exports = (sequelize, DataTypes) => {
             modelName: "Report",
         }
     )
+
+    Report.createReport = async (senderId, receiverId, details) => {
+        return await Report.create({ senderId, receiverId, details });
+    }
+
     return Report
 }

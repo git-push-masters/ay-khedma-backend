@@ -74,6 +74,22 @@ module.exports = (sequelize, DataTypes) => {
         return await Offer.findAll(options);
     }
 
+    Offer.getReceivedOffers = async (userId, { status, lastOffered, isPaid, page = 1, limit = 10 }) => {
+        let options = {
+            where: {},
+            include: {
+                model: Request,
+                where: { userId }
+            },
+            limit,
+            offset: (page - 1) * limit
+        };
+        status && (options.where.status = status);
+        lastOffered && (options.where.lastOffered = lastOffered);
+        isPaid && (options.where.isPaid = isPaid);
+        return await Offer.findAll(options);
+    }
+
     Offer.createOffer = async (userId, requestId, { price, scheduledAt }) => {
         return await Offer.create({ requestId, userId, price, scheduledAt });
     }
