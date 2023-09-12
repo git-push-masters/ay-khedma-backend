@@ -6,6 +6,6 @@ const { requireClient } = require('../../permissions/auth');
 
 router.get('/', ctrl.getSections);
 router.get('/:sectionId', ...validator.getSection, ctrl.getSection);
-router.get(requireClient, '/:sectionId/requests', ...validator.getSectionRequests, ctrl.getSectionRequests);
+router.get('/:sectionId/requests', requireClient, ...validator.getSectionRequests, ctrl.getSectionRequests);
 
 module.exports = router;
