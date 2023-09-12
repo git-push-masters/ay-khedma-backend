@@ -30,6 +30,7 @@ app.use(express.json());
 
 // Routers
 app.use("/api", require("./routes/files"));
+app.use("/dashboard/api", require("./routes/files"));
 app.use("/dashboard/api", require("./routes/dashboard"));
 app.use("/api", require("./routes/client"));
 
