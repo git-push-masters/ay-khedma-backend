@@ -13,7 +13,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 // Morgan Logger
-if (process.env.NODE_ENV === "development") app.use(require("morgan")("dev"));
+app.use(require("morgan")("dev"));
 
 // Database
 const { sequelize } = require("./models");
