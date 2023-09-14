@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
             this.setDataValue("thumbnailsText", JSON.stringify(value));
         }
 
+        toJSON() {
+            const values = Object.assign({}, this.get());
+            values.thumbnails = this.thumbnails; // Include the result of the getter method
+            return values;
+        }
+
         static associate(models) {
             this.belongsTo(models.User, {
                 foreignKey: "userId",
