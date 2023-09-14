@@ -73,9 +73,19 @@ exports.me = async (req, res, next) => {
     try {
         const user = await usersModel.getUserById(req.user.id);
         res.status(200).json({
+            success: true,
             status: 200,
             msgs: [],
-            data: user,
+            body: {
+                id: user.id,
+                name: user.name,
+                phone: user.phone,
+                avatar: user.avatar,
+                locationLat: user.locationLat,
+                locationLong: user.locationLong,
+                sectionId: user.sectionId,
+                token: req.headers.authorization.split(" ")[1],
+            },
         });
     } catch (err) {
         console.error(err);
