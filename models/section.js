@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             icon: {
                 type: DataTypes.STRING,
-                defaultValue: "/icons/default.svg",
+                defaultValue: "/icons/default.png",
             },
         },
         {
