@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             this.belongsTo(models.User, {
                 foreignKey: "userId",
+                onDelete: "CASCADE",
             });
             this.hasMany(models.Offer, {
                 foreignKey: "requestId",

@@ -52,6 +52,7 @@ exports.deleteUser = async (req, res, next) => {
             msgs: ["تم حذف الحساب بنجاح"],
         });
     } catch (err) {
+        console.error(err);
         next({});
     }
 };
