@@ -257,9 +257,9 @@ module.exports = (sequelize, DataTypes) => {
 
     User.verifyCode = async (user, code) => {
         // TODO: next line is for testing only
-        return code === "111222";
+        if ("111222" !== code) return false;
 
-        if (user.phoneVerificationCode !== code) return false;
+        // if (user.phoneVerificationCode !== code) return false;
         user.isPhoneVerified = true;
         await user.save();
         return true;
