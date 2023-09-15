@@ -10,14 +10,14 @@ exports.getSection = [
 
 exports.postSection = [
     check("name").notEmpty().withMessage("يجب إدخال اسم التخصص"),
-    check("icon").optional().isURL().withMessage("عنوان الصورة غير صالح"),
+    check("icon").optional(),
     requireValidation,
 ];
 
 exports.patchSection = [
     param("sectionId").notEmpty().withMessage("يجب إدخال رقم القسم"),
     check("name").optional().notEmpty().withMessage("يجب إدخال اسم التخصص"),
-    check("icon").optional().isURL().withMessage("عنوان الصورة غير صالح"),
+    check("icon").optional(),
     requireValidation,
 ];
 
