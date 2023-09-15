@@ -7,6 +7,6 @@ const { requireClient } = require('../../permissions/auth');
 const { uploadSettings } = require('../../config');
 
 router.get('/:filename', ctrl.getThumbnail);
-router.post('/', requireClient, multer(uploadSettings).single('thumbnail'), requiredFile, ctrl.postThumbnail);
+router.post('/', requireClient, multer(uploadSettings).array('thumbnail'), requiredFile, ctrl.postThumbnail);
 
 module.exports = router;
