@@ -12,10 +12,11 @@ module.exports = new (function () {
     // origin: 'http://localhost:3000'
   }
 
-  this.secret =
-    process.env.NODE_ENV === "production"
-      ? crypto.randomBytes(20).toString("hex")
-      : "ThisIsASecret"
+  // this.secret =
+  //   process.env.NODE_ENV === "production"
+  //     ? crypto.randomBytes(20).toString("hex")
+  //     : "ThisIsASecret"
+  this.secret = "ThisIsASecret"
 
   this.uploads = {
     avatar: path.join(__dirname, "uploads", "avatars"),
