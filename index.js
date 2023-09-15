@@ -4,7 +4,7 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 
 // Load .env file
-require("dotenv").config();
+process.env.NODE_ENV === 'development' && require("dotenv").config();
 const config = require("./config");
 
 // App Initialize
@@ -51,3 +51,5 @@ require("./sockets")(io);
 server.listen(config.port, () =>
     console.log("API Service working on port " + config.port)
 );
+
+module.exports = app;
