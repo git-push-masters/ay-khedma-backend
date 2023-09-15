@@ -6,8 +6,22 @@ const config = require("../config");
 
 module.exports = (sequelize, DataTypes) => {
     const Section = require("./section")(sequelize, DataTypes);
+    const Review = require("./review")(sequelize, DataTypes);
 
     class User extends Model {
+        get rating() {
+            if (this.Reviews && this.Reviews.length > 0) {
+                const totalRating = this.Reviews.reduce((sum, review) => sum + review.rating, 0);
+                return totalRating / this.Reviews.length;
+            }
+            return null;
+        }
+
+        toJSON() {
+            const values = Object.assign({}, this.get());
+            values.rating = this.rating; // Include the result of the getter method
+            return values;
+        }
         static associate(models) {
             this.belongsTo(models.Section, {
                 foreignKey: "sectionId",
@@ -112,7 +126,15 @@ module.exports = (sequelize, DataTypes) => {
         page = 1,
         limit = 10,
     }) => {
-        const options = { where: {}, limit, offset: (page - 1) * 10 };
+        const options = {
+            where: {},
+            include: Review,
+            attributes: {
+                exclude: ["password", "phoneVerificationCode"]
+            },
+            limit,
+            offset: (page - 1) * 10
+        };
 
         if (query) {
             options.where[[Op.or]] = [
@@ -127,10 +149,7 @@ module.exports = (sequelize, DataTypes) => {
         );
 
         if (locationLat && locationLong) {
-            options.attributes = {
-                include: [[distanceField, "distance"]],
-                exclude: ["password", "phoneVerificationCode"],
-            };
+            options.attributes.include = [[distanceField, "distance"]];
             options.order = [["distance", "ASC"]];
         }
 
@@ -144,10 +163,13 @@ module.exports = (sequelize, DataTypes) => {
 
     User.getUserById = async userId => {
         return await User.findByPk(userId, {
-            include: {
-                model: Section,
-                required: false,
-            },
+            include: [
+                {
+                    model: Section,
+                    required: false,
+                },
+                Review
+            ],
             attributes: {
                 exclude: ["password", "phoneVerificationCode"],
             },
