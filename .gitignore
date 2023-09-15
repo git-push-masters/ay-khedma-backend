@@ -1,2 +1,4 @@
 node_modules/
 models_old/
+__pycache__/
+venv/

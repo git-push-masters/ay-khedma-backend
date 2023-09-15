@@ -128,3 +128,23 @@ npm install
 ```shell
 npm start
 ```
+
+## Testing
+
+To run the automated tests, you need to have `Python` installed
+
+1. Create a virtual environment (optional)
+```shell
+pip install virtualenv
+virtualenv venv
+```
+
+2. Install requirements
+```shell
+pip install -r test-requirements.txt
+```
+
+3. Run test command
+```shell
+npm run test
+```
