@@ -4,7 +4,7 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 
 // Load .env file
-process.env.NODE_ENV === 'development' && require("dotenv").config();
+process.env.NODE_ENV === "development" && require("dotenv").config();
 const config = require("./config");
 
 // App Initialize
@@ -40,7 +40,9 @@ app.use((req, res, next) =>
 );
 
 // Server Error Handler
-app.use(({ status = 500, msgs = ["حدث خطأ ما"] }, req, res, next) => {
+app.use((err, req, res, next) => {
+    const { status = 500, msgs = ["حدث خطأ ما"] } = err;
+    console.error(err);
     res.status(status).json({ success: false, status, msgs });
 });
 

@@ -55,6 +55,7 @@ exports.deleteSection = async (req, res, next) => {
             msgs: ["تم حذف التخصص بنجاح"],
         });
     } catch (err) {
+        console.error(err);
         next({});
     }
 };
