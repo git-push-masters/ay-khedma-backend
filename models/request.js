@@ -5,14 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     const User = require("./user")(sequelize, DataTypes);
 
     class Request extends Model {
-        get thumbnails() {
-            return JSON.parse(this.getDataValue("thumbnailsText"));
-        }
-
-        set thumbnails(value) {
-            this.setDataValue("thumbnailsText", JSON.stringify(value));
-        }
-
         toJSON() {
             const values = Object.assign({}, this.get());
             values.thumbnails = this.thumbnails; // Include the result of the getter method
@@ -77,6 +69,16 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Request",
+            getterMethods: {
+                thumbnails() {
+                    return JSON.parse(this.getDataValue("thumbnailsText"));
+                }
+            },
+            setterMethods: {
+                thumbnails(value) {
+                    this.setDataValue("thumbnailsText", JSON.stringify(value));
+                }
+            }
         }
     );
 
